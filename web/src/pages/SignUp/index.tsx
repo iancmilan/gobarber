@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { FiArrowLeft, FiMail, FiUser, FiLock } from 'react-icons/fi';
 import { Form } from '@unform/web';
+import * as Yup from 'yup';
 
 import { Container, Content, Background } from './styles';
 
@@ -10,9 +11,23 @@ import Button from '../../components/Button';
 import logoImg from '../../assets/logo.svg';
 
 const SignUp: React.FC = () => {
-  function handleSubmit(data: unknown): void {
-    console.log(data);
-  }
+  const handleSubmit = useCallback(async (data: unknown) => {
+    try {
+      const schema = Yup.object().shape({
+        name: Yup.string().required('Nome obrigatório'),
+        email: Yup.string()
+          .required('E-mail obrigatório')
+          .email('Digite um e-mail válido'),
+        password: Yup.string().min(6, 'Mínimo 6 dígitos'),
+      });
+
+      await schema.validate(data, {
+        abortEarly: false, // essa configuração vem como true por padrão no Yup, parando no primeiro erro que aparecer, colocando como false ele retorna todos os erros que encontrar, e não somente o primeiro
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
   return (
     <Container>
       <Background />
