@@ -4,7 +4,7 @@ import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 
-import AuthContext from '../../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext';
 
 import getValidationErrors from '../../utils/getValidationErrors';
 
@@ -15,33 +15,46 @@ import Button from '../../components/Button';
 
 import logoImg from '../../assets/logo.svg';
 
+interface SignInFormData {
+  email: string;
+  password: string;
+}
+
 const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
-  const { name } = useContext(AuthContext);
+  const { user, signIn } = useContext(AuthContext);
 
-  console.log(name);
+  console.log(user);
 
-  const handleSubmit = useCallback(async (data: unknown) => {
-    try {
-      formRef.current?.setErrors({}); // setando os erros como vazio para caso o usuário conserte um erro a mensagem no campo desaparecer
+  const handleSubmit = useCallback(
+    async (data: SignInFormData) => {
+      try {
+        formRef.current?.setErrors({}); // setando os erros como vazio para caso o usuário conserte um erro a mensagem no campo desaparecer
 
-      const schema = Yup.object().shape({
-        email: Yup.string()
-          .required('E-mail obrigatório')
-          .email('Digite um e-mail válido'),
-        password: Yup.string().required('Senha obrigatória'),
-      });
+        const schema = Yup.object().shape({
+          email: Yup.string()
+            .required('E-mail obrigatório')
+            .email('Digite um e-mail válido'),
+          password: Yup.string().required('Senha obrigatória'),
+        });
 
-      await schema.validate(data, {
-        abortEarly: false, // essa configuração vem como true por padrão no Yup, parando no primeiro erro que aparecer, colocando como false ele retorna todos os erros que encontrar, e não somente o primeiro
-      });
-    } catch (err) {
-      const errors = getValidationErrors(err);
+        await schema.validate(data, {
+          abortEarly: false, // essa configuração vem como true por padrão no Yup, parando no primeiro erro que aparecer, colocando como false ele retorna todos os erros que encontrar, e não somente o primeiro
+        });
 
-      formRef.current?.setErrors(errors);
-    }
-  }, []);
+        signIn({
+          email: data.email,
+          password: data.password,
+        });
+      } catch (err) {
+        const errors = getValidationErrors(err);
+
+        formRef.current?.setErrors(errors);
+      }
+    },
+    [signIn],
+  );
 
   return (
     <Container>
