@@ -10,7 +10,7 @@
 
 <!-- Bagdes -->
 [web]: https://img.shields.io/badge/web-React-63DAFA?style=flat-square
-[backend]: https://img.shields.io/badge/server-Node.js-brightgreen?style=flat-square
+[backend]: https://img.shields.io/badge/backend-Node.js-brightgreen?style=flat-square
 [mobile]: https://img.shields.io/badge/mobile-React%20Native-63DAFA?style=flat-square
 [top_language]: https://img.shields.io/github/languages/top/iancmilan/gobarber?style=flat-square
 [repo-size]: https://img.shields.io/github/repo-size/iancmilan/gobarber?style=flat-square
