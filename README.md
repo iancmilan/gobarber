@@ -8,8 +8,6 @@
 
 </div>
 
-### :construction_worker::construction: Em construção :construction_worker::construction:
-
 <!-- Bagdes -->
 [web]: https://img.shields.io/badge/web-React-e08108?style=flat-square&labelColor=121214
 [backend]: https://img.shields.io/badge/backend-Node.js-e08108?style=flat-square&labelColor=121214
